@@ -1,0 +1,217 @@
+{
+  "main": {
+    "id": "2b3d473be4a20d44",
+    "type": "split",
+    "children": [
+      {
+        "id": "691c61f578b8cb42",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "67b0dcd4c8c38d49",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "📚 01 - AI Foundations/Day 01 - Understanding LLMs.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Day 01 - Understanding LLMs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cb5694215c43c192",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4ba86c288859cd22",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "02d4388ce7213ff0",
+    "type": "split",
+    "children": [
+      {
+        "id": "54f5a0f924907538",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1d3995c93d31f907",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "539fea3965c94565",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "1178188cd0fcbda8",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3e7ba3932466f9d5",
+    "type": "split",
+    "children": [
+      {
+        "id": "e4f875d3eaba9df7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "da08f55c384e3de8",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "📚 01 - AI Foundations/Day 01 - Understanding LLMs.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Day 01 - Understanding LLMs"
+            }
+          },
+          {
+            "id": "cb3dc95546bdc2e8",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "📚 01 - AI Foundations/Day 01 - Understanding LLMs.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Day 01 - Understanding LLMs"
+            }
+          },
+          {
+            "id": "c7cb215d4d6eaabe",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "b067c3ee6961d4a6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "01af33f66477394b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "📚 01 - AI Foundations/Day 01 - Understanding LLMs.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Day 01 - Understanding LLMs"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "67b0dcd4c8c38d49",
+  "lastOpenFiles": [
+    "Welcome.md",
+    "📚 01 - AI Foundations/Day 01 - Understanding LLMs.md",
+    "📁 Assets",
+    "❓10 - Interview Questions",
+    "📄 09 - Cheat Sheets",
+    "🚀 08 - Projects",
+    "⚙️ 07 - MCP",
+    "🤝 06 - AI Agents",
+    "🔍 05 - RAG",
+    "🧠 04 - LLM Concepts",
+    "💻 03 - AI Tools",
+    "🤖 02 - Prompt Engineering"
+  ]
+}
