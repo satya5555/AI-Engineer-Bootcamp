@@ -1,0 +1,10 @@
+Python is a popular programming language used for AI and web development.
+Artificial Intelligence is transforming healthcare by improving diagnosis and treatment.
+Dogs are loyal animals and are often called man's best friend.
+Electric vehicles are becoming increasingly popular around the world.
+Cloud computing allows businesses to scale applications efficiently.
+Machine Learning is a subset of Artificial Intelligence.
+Cybersecurity protects systems from digital attacks.
+Git is a distributed version control system.
+Docker helps developers package applications into containers.
+Kubernetes manages containerized applications at scale.
