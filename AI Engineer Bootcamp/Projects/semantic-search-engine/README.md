@@ -1,25 +1,58 @@
-# Semantic Search Engine
+# ChromaDB Semantic Search Engine
 
-A semantic search application built using Sentence Transformers and cosine similarity as part of the AI Engineer Bootcamp.
+A semantic search application built using Sentence Transformers and ChromaDB as part of the AI Engineer Bootcamp.
 
 ## Features
 
-- Generate text embeddings
 - Semantic document search
-- Cosine similarity scoring
-- Top 3 relevant results
-- Similarity threshold
-- External document loading
+- Persistent vector storage
+- ChromaDB vector database
+- Sentence Transformer embeddings
+- Top 3 search results
+- Interactive search
+- Metadata-based filtering
+- Persistent collections
 
 ## Technologies
 
 - Python
+- ChromaDB
 - Sentence Transformers
 - Hugging Face
 - NumPy
 - Scikit-learn
 
+## Project Architecture
+
+```text
+documents.txt
+      ↓
+Sentence Transformer
+      ↓
+Embeddings
+      ↓
+ChromaDB
+      ↓
+Vector Search
+      ↓
+Top Relevant Documents
+```
+
 ## Installation
+
+Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate
+```
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -31,14 +64,27 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## Project Flow
+## Example
 
-Documents → Embeddings → Cosine Similarity → Top Results
+```text
+Search: automobile
 
-## Learning Objectives
+Top Results:
+
+1. Electric vehicles are becoming increasingly popular around the world.
+2. ...
+```
+
+## Key Concepts
 
 - Embeddings
+- Vector Databases
 - Semantic Search
 - Cosine Similarity
-- Vector Representations
-- Retrieval
+- Metadata
+- Vector Retrieval
+- Persistent Storage
+
+## Learning Objective
+
+This project demonstrates how a vector database can store and retrieve semantically similar documents and serves as the foundation for Retrieval-Augmented Generation (RAG).

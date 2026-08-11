@@ -1,56 +1,74 @@
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-model = SentenceTransformer("all-MiniLM-L6-v2")
+import chromadb
 
-with open("documents.txt", "r", encoding="utf-8") as file:
-    documents = file.read().splitlines()
 
-print("Documents Loaded Successfully!")
+def load_documents():
+    with open("documents.txt", "r", encoding="utf-8") as file:
+        return file.read().splitlines()
 
-document_embeddings = model.encode(documents)
 
-print(f"\nNumber of Documents : {len(documents)}")
-print(f"Embedding Shape     : {document_embeddings.shape}")
-
-print("=" * 60)
-print("Semantic Search Engine")
-print("=" * 60)
-
-print(f"\nLoaded {len(documents)} documents successfully!")
-
-print("\nType 'exit' anytime to quit.\n")
-while True:
-    query = input("\nSearch (or type 'exit'): ")
-
-    if query.lower() == "exit":
-        print("\nThank you for using Semantic Search Engine!")
-        break
-
-    query_embedding = model.encode(query)
-
-    similarities = cosine_similarity(
-        [query_embedding],
-        document_embeddings
+def create_collection(client):
+    return client.get_or_create_collection(
+        name="semantic_documents"
     )
 
-    top_indices = np.argsort(similarities[0])[::-1][:3]
 
-    print("\nTop Results\n")
+def add_documents(collection, documents):
+    existing = collection.count()
 
-    found = False
+    if existing == 0:
+        collection.add(
+            documents=documents,
+            ids=[f"doc_{i}" for i in range(len(documents))]
+        )
+        print(f"Added {len(documents)} documents to ChromaDB.")
+    else:
+        print(f"Collection already contains {existing} documents.")
 
-    for rank, index in enumerate(top_indices, start=1):
 
-        score = similarities[0][index]
+def search_documents(collection, query):
+    results = collection.query(
+        query_texts=[query],
+        n_results=3
+    )
 
-        if score < 0.30:
-            continue
+    return results["documents"][0]
 
-        found = True
 
-        print(f"{rank}. {documents[index]}")
-        print(f"   Similarity: {score:.4f}\n")
+def main():
+    print("=" * 60)
+    print("ChromaDB Semantic Search Engine")
+    print("=" * 60)
 
-    if not found:
-        print("No relevant documents found.")
+    client = chromadb.PersistentClient(
+        path="./chroma_db"
+    )
+
+    collection = create_collection(client)
+
+    documents = load_documents()
+
+    add_documents(collection, documents)
+
+    print(f"\nTotal documents: {collection.count()}")
+    print("\nType 'exit' to quit.")
+
+    while True:
+        query = input("\nSearch: ")
+
+        if query.lower() == "exit":
+            print("\nGoodbye!")
+            break
+
+        results = search_documents(
+            collection,
+            query
+        )
+
+        print("\nTop Results:\n")
+
+        for rank, document in enumerate(results, start=1):
+            print(f"{rank}. {document}")
+
+
+if __name__ == "__main__":
+    main()
