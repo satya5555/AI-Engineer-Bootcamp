@@ -1,135 +1,42 @@
-# RAG Knowledge Assistant
+# 🧠 AI Knowledge Assistant
 
-A Retrieval-Augmented Generation (RAG) application built using ChromaDB and Google Gemini as part of the AI Engineer Bootcamp.
+A Retrieval-Augmented Generation (RAG) based knowledge assistant that answers questions using a custom company knowledge base.
 
-## Features
+The application combines semantic search, ChromaDB, Gemini, FastAPI, and a Next.js interface to provide grounded answers with retrieved sources.
 
-- Document-based knowledge retrieval
-- Document chunking
-- Semantic search
-- ChromaDB vector database
+---
+
+## 🚀 Features
+
+- Ask questions in a simple web interface
+- Semantic retrieval using ChromaDB
 - Gemini-powered answer generation
-- Grounded responses
-- Hallucination fallback
-- Interactive question answering
+- Grounded responses based only on the knowledge base
+- Source documents displayed with similarity distance
+- Handles questions that are not available in the knowledge base
+- FastAPI backend
+- Next.js frontend
 
-## Architecture
+---
 
-```text
-User Question
-      ↓
-Query Embedding
-      ↓
-ChromaDB
-      ↓
-Relevant Chunks
-      ↓
-Context Construction
-      ↓
-Gemini
-      ↓
-Grounded Answer
-```
-
-## Technologies
-
-- Python
-- ChromaDB
-- Sentence Transformers
-- Google Gemini
-- Google GenAI SDK
-- python-dotenv
-
-## Project Structure
+## 🏗️ Architecture
 
 ```text
-rag-knowledge-assistant/
-│
-├── knowledge_base.txt
-├── ingest.py
-├── retrieve.py
-├── generate.py
-├── main.py
-├── requirements.txt
-└── .gitignore
+                    User
+                     │
+                     ▼
+                Next.js UI
+                     │
+                     │ POST /ask
+                     ▼
+                 FastAPI
+                     │
+                     ▼
+                RAG Pipeline
+                 /       \
+                ▼         ▼
+           ChromaDB     Gemini
+                ▲
+                │
+          Knowledge Base
 ```
-
-## Setup
-
-Create a virtual environment:
-
-```bash
-python -m venv .venv
-```
-
-Activate on Windows:
-
-```powershell
-.venv\Scripts\Activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Create `.env.local`:
-
-```text
-GEMINI_API_KEY=your_api_key_here
-```
-
-Never commit the API key to GitHub.
-
-## Run
-
-First ingest the knowledge base:
-
-```bash
-python ingest.py
-```
-
-Then run the assistant:
-
-```bash
-python main.py
-```
-
-## Example
-
-```text
-Question: How many days can I work from home?
-
-Answer:
-Employees can work from home up to two days per week
-with prior approval from their manager.
-```
-
-## RAG Pipeline
-
-```text
-Knowledge Base
-      ↓
-Chunking
-      ↓
-Embeddings
-      ↓
-ChromaDB
-      ↓
-Semantic Retrieval
-      ↓
-Context
-      ↓
-Gemini
-      ↓
-Answer
-```
-
-## Learning Objectives
-
-- Understand RAG architecture
-- Implement document chunking
-- Use vector databases for retrieval
-- Connect retrieval with an LLM
-- Ground LLM responses using external knowledge
