@@ -19,16 +19,27 @@ CHROMA_PATH = "./chroma_db"
 COLLECTION_NAME = "company_knowledge"
 
 
+# --------------------------------------------------
+# Load documents
+# --------------------------------------------------
+
 def load_documents():
+
     with open("knowledge_base.txt", "r", encoding="utf-8") as file:
         content = file.read()
 
-    return [
+    documents = [
         chunk.strip()
         for chunk in content.split("\n\n")
         if chunk.strip()
     ]
 
+    return documents
+
+
+# --------------------------------------------------
+# Create / Load Vector Store
+# --------------------------------------------------
 
 def create_vector_store():
 
@@ -46,6 +57,7 @@ def create_vector_store():
         name=COLLECTION_NAME
     )
 
+    # Add documents only if collection is empty
     if collection.count() == 0:
 
         collection.add(
@@ -56,12 +68,41 @@ def create_vector_store():
             ]
         )
 
-    return Chroma(
+        print(f"Added {len(documents)} documents to ChromaDB.")
+
+    else:
+
+        print(
+            f"Loaded existing collection with "
+            f"{collection.count()} documents."
+        )
+
+    vector_store = Chroma(
         client=client,
         collection_name=COLLECTION_NAME,
         embedding_function=embeddings
     )
 
+    return vector_store
+
+
+# --------------------------------------------------
+# Retrieve documents with similarity scores
+# --------------------------------------------------
+
+def retrieve_with_scores(vector_store, question):
+
+    results = vector_store.similarity_search_with_score(
+        question,
+        k=3
+    )
+
+    return results
+
+
+# --------------------------------------------------
+# Create RAG Chain
+# --------------------------------------------------
 
 def create_rag_chain(retriever):
 
@@ -81,7 +122,10 @@ Rules:
 - Do not use outside knowledge.
 - Do not invent information.
 - If the answer is not available in the context,
-  say: "I don't have enough information in the provided knowledge base."
+  say exactly:
+
+"I don't have enough information in the provided knowledge base."
+
 - Keep the answer concise and clear.
 
 Context:
@@ -109,32 +153,69 @@ Answer:
     return rag_chain
 
 
+# --------------------------------------------------
+# Main
+# --------------------------------------------------
+
 def main():
 
     print("=" * 60)
     print("LangChain RAG Knowledge Assistant")
     print("=" * 60)
 
+    # Create/load vector database
     vector_store = create_vector_store()
 
+    # Create retriever
     retriever = vector_store.as_retriever(
-        search_kwargs={"k": 2}
+        search_kwargs={"k": 3}
     )
 
-    rag_chain = create_rag_chain(
-        retriever
-    )
+    # Create RAG chain
+    rag_chain = create_rag_chain(retriever)
 
     print("\nKnowledge base ready.")
     print("Type 'exit' to quit.")
 
     while True:
 
-        question = input("\nQuestion: ")
+        question = input("\nQuestion: ").strip()
 
+        # Check exit BEFORE doing retrieval
         if question.lower() == "exit":
+
             print("\nGoodbye!")
             break
+
+        if not question:
+
+            print("Please enter a question.")
+            continue
+
+        # --------------------------------------------------
+        # Retrieve documents with scores
+        # --------------------------------------------------
+
+        results = retrieve_with_scores(
+            vector_store,
+            question
+        )
+
+        print("\nRetrieved Documents with Scores:")
+        print("-" * 60)
+
+        for index, (document, score) in enumerate(
+            results,
+            start=1
+        ):
+
+            print(f"\nSource {index}")
+            print(f"Distance Score: {score:.4f}")
+            print(document.page_content)
+
+        # --------------------------------------------------
+        # Generate answer using RAG
+        # --------------------------------------------------
 
         answer = rag_chain.invoke(question)
 
@@ -142,6 +223,47 @@ def main():
         print("-" * 60)
         print(answer)
 
+        # --------------------------------------------------
+        # Display sources
+        # --------------------------------------------------
+
+        print("\n📚 Sources:")
+        print("-" * 60)
+
+        for index, (document, score) in enumerate(
+            results,
+            start=1
+        ):
+
+            source_text = document.page_content
+
+            # First line as source title
+            source_title = source_text.split("\n")[0]
+
+            print(
+                f"{index}. {source_title} "
+                f"(distance: {score:.4f})"
+            )
+RELEVANCE_THRESHOLD = 0.8
+def retrieve_relevant_documents(vector_store, question):
+
+    results = vector_store.similarity_search_with_score(
+        question,
+        k=3
+    )
+
+    relevant_documents = []
+
+    for document, score in results:
+
+        if score <= RELEVANCE_THRESHOLD:
+            relevant_documents.append(document)
+
+    return relevant_documents
+
+# --------------------------------------------------
+# Entry Point
+# --------------------------------------------------
 
 if __name__ == "__main__":
     main()
