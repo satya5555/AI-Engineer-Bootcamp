@@ -40,3 +40,4 @@ The application combines semantic search, ChromaDB, Gemini, FastAPI, and a Next.
                 │
           Knowledge Base
 ```
+
