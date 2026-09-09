@@ -99,7 +99,21 @@ class Calculator:
                 messages
             )
 
-            return final_response.content
+            content = final_response.content
+
+            if isinstance(content, str):
+                return content
+
+            if isinstance(content, list):
+                text_parts = []
+
+                for block in content:
+                    if isinstance(block, dict) and block.get("type") == "text":
+                        text_parts.append(block.get("text", ""))
+
+                return "".join(text_parts)
+
+            return str(content)
 
         except Exception as error:
             error_message = str(error)
