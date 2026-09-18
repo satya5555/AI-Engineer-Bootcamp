@@ -1,0 +1,18 @@
+Artificial intelligence is changing the way modern
+organizations build software and analyze information.
+Machine learning allows systems to learn patterns from
+data and make predictions without being explicitly
+programmed for every possible situation.
+Large language models are a type of AI system that can
+process and generate natural language. They are used
+for chatbots, summarization, document analysis, coding
+assistants, and information retrieval.
+Retrieval augmented generation combines language models
+with external knowledge sources. Instead of relying only
+on information learned during model training, a RAG
+system can retrieve relevant information from documents
+and provide that information to the language model.
+Vector databases are commonly used to store embeddings.
+Embeddings represent the semantic meaning of text as
+numerical vectors. Similar pieces of information can
+then be retrieved based on semantic similarity.
