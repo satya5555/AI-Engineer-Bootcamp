@@ -1,0 +1,6 @@
+Q1 | Doctor details?
+Q2 | What department does the doctor belong to?
+Q3 | What information is provided about the patient?
+Q4 | What is the main purpose of the document?
+Q5 | What is the patient's favorite programming language?
+Q6 | What is the recipe for pasta?
