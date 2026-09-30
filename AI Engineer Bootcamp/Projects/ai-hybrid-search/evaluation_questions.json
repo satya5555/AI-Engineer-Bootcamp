@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is the main topic of the document?",
+    "expected_answer": "Discharge Summary",
+    "expected_keywords": ["Discharge Summary"]
+  },
+  {
+    "question": "What medicine is mentioned in the document?",
+    "expected_answer": "ATARAX 10MG TABLET",
+    "expected_keywords": ["ATARAX"]
+  },
+  {
+    "question": "What is the patient's appetite?",
+    "expected_answer": "Normal",
+    "expected_keywords": ["normal"]
+  },
+  {
+    "question": "What is the hospital name?",
+    "expected_answer": "MEDICOVER HOSPITALS",
+    "expected_keywords": ["MEDICOVER"]
+  },
+  {
+    "question": "What is the recipe for pasta?",
+    "expected_answer": "The information is not available in the document.",
+    "expected_keywords": []
+  }
+]

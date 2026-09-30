@@ -1,4 +1,7 @@
+import json
 from pathlib import Path
+
+from app.evaluator import Evaluator
 
 from app.loader import PDFLoader
 from app.splitter import TextSplitter
@@ -6,30 +9,69 @@ from app.vectorstore import VectorStore
 from app.keyword_search import KeywordSearch
 from app.semantic_search import SemanticSearch
 from app.hybrid_search import HybridSearch
+from app.chat import RAGChat
+from app.metrics import keyword_match, retrieval_hit
+from app.metrics import (
+    keyword_match,
+    answer_match,
+    retrieval_hit,
+    refusal_match,
+    classify_result
+)
+
+# ---------------------------------------------
+# 1. Load evaluation questions
+# ---------------------------------------------
+
+questions_path = Path("evaluation_questions.json")
+
+with open(
+    questions_path,
+    "r",
+    encoding="utf-8"
+) as file:
+
+    questions = json.load(file)
 
 
-# --------------------------------------------------
-# Load document
-# --------------------------------------------------
+# ---------------------------------------------
+# 2. Load PDF
+# ---------------------------------------------
 
-pdf_path = Path(__file__).parent / "documents" / "sample.pdf"
+pdf_path = Path("documents/sample.pdf")
 
 loader = PDFLoader()
-documents = loader.load(str(pdf_path))
+
+documents = loader.load(
+    str(pdf_path)
+)
+
+print(f"Pages loaded: {len(documents)}")
+
+
+# ---------------------------------------------
+# 3. Split PDF
+# ---------------------------------------------
 
 splitter = TextSplitter(
     chunk_size=500,
     chunk_overlap=100
 )
 
-chunks = splitter.split(documents)
+chunks = splitter.split(
+    documents
+)
+
+print(f"Chunks created: {len(chunks)}")
 
 
-# --------------------------------------------------
-# Create retrievers
-# --------------------------------------------------
+# ---------------------------------------------
+# 4. Create retrieval components
+# ---------------------------------------------
 
-keyword_search = KeywordSearch(chunks)
+keyword_search = KeywordSearch(
+    chunks
+)
 
 vector_store = VectorStore()
 
@@ -43,91 +85,127 @@ hybrid_search = HybridSearch(
 )
 
 
-# --------------------------------------------------
-# Evaluation questions
-# --------------------------------------------------
+# ---------------------------------------------
+# 5. Create chat
+# ---------------------------------------------
 
-questions = [
-    "What is the main topic of the document?",
-    "What information is provided about the document?",
-    "Give me an exact name or identifier from the document.",
-    "Explain the main idea in simple words.",
-    "What is the recipe for pasta?"
-]
+chat = RAGChat()
 
 
-# --------------------------------------------------
-# Evaluate
-# --------------------------------------------------
+# ---------------------------------------------
+# 6. Create evaluator
+# ---------------------------------------------
 
-for question in questions:
+evaluator = Evaluator(
+    hybrid_search,
+    chat
+)
+
+
+# ---------------------------------------------
+# 7. Run evaluation
+# ---------------------------------------------
+
+from app.metrics import (
+    keyword_match,
+    answer_match,
+    retrieval_hit
+)
+
+retrieval_scores = []
+keyword_scores = []
+answer_scores = []
+
+for item in questions:
+    question = item["question"]
+    expected_answer = item["expected_answer"]
+    expected_keywords = item["expected_keywords"]
 
     print("\n" + "=" * 80)
-    print("QUESTION:", question)
+    print("QUESTION")
     print("=" * 80)
+    print(question)
 
-    print("\n--- BM25 ---")
+    result = evaluator.evaluate_question(question)
 
-    keyword_results = keyword_search.search(
-        question,
-        k=3
+    retrieval_score = retrieval_hit(
+        result["results"],
+        expected_keywords
     )
 
-    for index, document in enumerate(keyword_results):
-
-        page = document.metadata.get(
-            "page",
-            0
-        ) + 1
-
-        print(
-            f"{index + 1}. Page {page}: "
-            f"{document.page_content[:150]}"
-        )
-
-    print("\n--- SEMANTIC ---")
-
-    semantic_results = semantic_search.search(
-        question
+    keyword_score = keyword_match(
+        result["answer"],
+        expected_keywords
     )
 
-    for index, document in enumerate(
-        semantic_results[:3]
-    ):
-
-        page = document.metadata.get(
-            "page",
-            0
-        ) + 1
-
-        print(
-            f"{index + 1}. Page {page}: "
-            f"{document.page_content[:150]}"
-        )
-
-    print("\n--- HYBRID ---")
-
-    hybrid_results = hybrid_search.search(
-        question,
-        k=3
+    if expected_keywords:
+        answer_score = answer_match(
+            result["answer"],
+            expected_answer
+    )
+    else:
+        answer_score = refusal_match(
+        result["answer"],
+        expected_answer
     )
 
-    for index, result in enumerate(
-        hybrid_results
-    ):
+    print("\nANSWER")
+    print("-" * 80)
+    print(result["answer"])
 
-        document = result["document"]
+    print("\nEVALUATION")
+    print("-" * 80)
+    print(
+        f"Retrieval Hit: "
+        f"{retrieval_score if retrieval_score is not None else 'N/A'}"
+    )
+    print(
+        f"Keyword Match: "
+        f"{keyword_score if keyword_score is not None else 'N/A'}"
+    )
+    print(f"Answer Match:  {answer_score:.2f}")
 
-        page = document.metadata.get(
-            "page",
-            0
-        ) + 1
+    if retrieval_score is not None:
+        retrieval_scores.append(retrieval_score)
 
-        print(
-            f"{index + 1}. Page {page}: "
-            f"{document.page_content[:150]}"
-        )
+    if keyword_score is not None:
+        keyword_scores.append(keyword_score)
 
-        print(
-            f"   RRF={result['rrf_score']:.6f}"
-        )
+    answer_scores.append(answer_score)
+    is_unsupported = len(expected_keywords) == 0
+
+    result_type = classify_result(
+        retrieval_score,
+        answer_score,
+        is_unsupported
+    )
+
+    print(f"Result Type:   {result_type}")
+
+    print("\nRETRIEVED SOURCES")
+    print("-" * 80)
+
+    if result["sources"]:
+        for source in result["sources"]:
+            print(
+                f"Page {source['page']} | "
+                f"RRF: {source['rrf_score']:.6f}"
+            )
+    else:
+        print("No sources found.")
+
+
+print("\n" + "=" * 80)
+print("EVALUATION SUMMARY")
+print("=" * 80)
+
+if retrieval_scores:
+    retrieval_avg = sum(retrieval_scores) / len(retrieval_scores)
+    print(f"Average Retrieval Hit: {retrieval_avg:.2f}")
+
+if keyword_scores:
+    keyword_avg = sum(keyword_scores) / len(keyword_scores)
+    print(f"Average Keyword Match:  {keyword_avg:.2f}")
+
+answer_avg = sum(answer_scores) / len(answer_scores)
+print(f"Average Answer Match:   {answer_avg:.2f}")
