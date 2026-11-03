@@ -1,0 +1,5 @@
+crewai
+python-dotenv
+streamlit
+ddgs
+google-genai
