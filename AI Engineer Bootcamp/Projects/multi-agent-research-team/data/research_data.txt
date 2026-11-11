@@ -1,0 +1,14 @@
+
+Artificial Intelligence helps doctors detect diseases through medical image analysis.
+
+Machine learning models can predict patient health risks using historical medical records.
+
+AI-powered chatbots help patients access basic healthcare information and appointment support.
+
+Robotic surgery systems assist surgeons with precise and minimally invasive procedures.
+
+AI can improve hospital operations by optimizing resource allocation and patient scheduling.
+
+Healthcare organizations must protect patient data and address algorithmic bias in AI systems.
+
+AI-based drug discovery can help researchers identify potential treatments faster.
