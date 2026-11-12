@@ -1,0 +1,7 @@
+Artificial Intelligence Research Notes
+
+1. Machine Learning enables systems to learn patterns from data.
+2. Deep Learning uses neural networks with multiple layers.
+3. Natural Language Processing enables computers to understand human language.
+4. Retrieval Augmented Generation combines information retrieval with LLM generation.
+5. AI Agents can use tools to perform tasks autonomously.
