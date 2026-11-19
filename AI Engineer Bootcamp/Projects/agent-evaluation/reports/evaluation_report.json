@@ -1,0 +1,79 @@
+{
+    "agent_evaluation": {
+        "total_tasks": 3,
+        "tool_selection_accuracy": 100.0,
+        "tool_call_accuracy": 100.0,
+        "task_completion_rate": 100.0,
+        "failure_rate": 33.33333333333333,
+        "expected_status_accuracy": 100.0,
+        "trajectory_evaluation": true,
+        "individual_results": [
+            {
+                "task_id": "task_01",
+                "tool_selection_correct": true,
+                "tool_call_correct": true,
+                "task_completed": true,
+                "expected_status": "success",
+                "actual_status": "success",
+                "status_correct": true
+            },
+            {
+                "task_id": "task_02",
+                "tool_selection_correct": true,
+                "tool_call_correct": true,
+                "task_completed": true,
+                "expected_status": "success",
+                "actual_status": "success",
+                "status_correct": true
+            },
+            {
+                "task_id": "task_03",
+                "tool_selection_correct": true,
+                "tool_call_correct": true,
+                "task_completed": null,
+                "expected_status": "failure",
+                "actual_status": "failure",
+                "status_correct": true
+            }
+        ]
+    },
+    "rag_evaluation": {
+        "total_cases": 2,
+        "average_retrieval_precision": 83.33333333333333,
+        "average_retrieval_recall": 58.33333333333333,
+        "average_context_relevance": 70.0,
+        "average_faithfulness": 58.33333333333333,
+        "answer_correctness_rate": 50.0,
+        "individual_results": [
+            {
+                "case_id": "rag_01",
+                "retrieval_precision": 66.66666666666666,
+                "retrieval_recall": 50.0,
+                "context_relevance": 80.0,
+                "faithfulness": 66.66666666666666,
+                "answer_correctness": true
+            },
+            {
+                "case_id": "rag_02",
+                "retrieval_precision": 100.0,
+                "retrieval_recall": 66.66666666666666,
+                "context_relevance": 60.0,
+                "faithfulness": 50.0,
+                "answer_correctness": false
+            }
+        ]
+    },
+    "production_evaluation": {
+        "total_requests": 3,
+        "average_latency_seconds": 1.6666666666666667,
+        "token_consumption": {
+            "input_tokens": 950,
+            "output_tokens": 450,
+            "total_tokens": 1400
+        },
+        "total_cost_usd": 0.006500000000000001,
+        "throughput_requests_per_second": 0.6,
+        "reliability_percentage": 66.66666666666666,
+        "measurement_type": "simulated"
+    }
+}

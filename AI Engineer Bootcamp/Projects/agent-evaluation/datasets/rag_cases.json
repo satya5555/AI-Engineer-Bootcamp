@@ -1,0 +1,24 @@
+[
+  {
+    "id": "rag_01",
+    "query": "What is Python used for?",
+    "retrieved_chunks": ["c1", "c2", "c5"],
+    "relevant_chunks": ["c1", "c2", "c3", "c4"],
+    "context_relevance_rating": 4,
+    "total_answer_claims": 3,
+    "supported_answer_claims": 2,
+    "expected_answer": "Python is used for web development, automation, and data science.",
+    "actual_answer": "Python is used for web development, automation, and data science."
+  },
+  {
+    "id": "rag_02",
+    "query": "What is machine learning?",
+    "retrieved_chunks": ["c6", "c8"],
+    "relevant_chunks": ["c6", "c7", "c8"],
+    "context_relevance_rating": 3,
+    "total_answer_claims": 4,
+    "supported_answer_claims": 2,
+    "expected_answer": "Machine learning enables systems to learn patterns from data.",
+    "actual_answer": "Machine learning enables systems to learn patterns from data and emotions."
+  }
+]

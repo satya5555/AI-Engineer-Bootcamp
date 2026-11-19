@@ -1,0 +1,29 @@
+{
+  "total_elapsed_seconds": 5.0,
+  "requests": [
+    {
+      "id": "request_01",
+      "latency_seconds": 1.2,
+      "input_tokens": 300,
+      "output_tokens": 150,
+      "cost_usd": 0.002,
+      "status": "success"
+    },
+    {
+      "id": "request_02",
+      "latency_seconds": 2.0,
+      "input_tokens": 400,
+      "output_tokens": 200,
+      "cost_usd": 0.003,
+      "status": "success"
+    },
+    {
+      "id": "request_03",
+      "latency_seconds": 1.8,
+      "input_tokens": 250,
+      "output_tokens": 100,
+      "cost_usd": 0.0015,
+      "status": "failure"
+    }
+  ]
+}

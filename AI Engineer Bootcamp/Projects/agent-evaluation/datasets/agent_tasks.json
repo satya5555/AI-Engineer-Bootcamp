@@ -1,0 +1,34 @@
+[
+  {
+    "id": "task_01",
+    "task": "Add 10 and 20",
+    "expected_tool": "add",
+    "expected_arguments": {
+      "a": 10,
+      "b": 20
+    },
+    "expected_outcome": 30,
+    "expected_status": "success"
+  },
+  {
+    "id": "task_02",
+    "task": "Greet the user named Sai",
+    "expected_tool": "greet",
+    "expected_arguments": {
+      "name": "Sai"
+    },
+    "expected_outcome": "Hello, Sai!",
+    "expected_status": "success"
+  },
+  {
+    "id": "task_03",
+    "task": "Multiply 5 and 4",
+    "expected_tool": "multiply",
+    "expected_arguments": {
+      "a": 5,
+      "b": 4
+    },
+    "expected_outcome": 20,
+    "expected_status": "failure"
+  }
+]
